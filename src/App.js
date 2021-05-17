@@ -1,11 +1,17 @@
-import TopNav from "./components/TopNav";
+import Sidebar from "./components/Sidebar";
+import Movies from "./components/Movies";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
- 
-
   return (
     <div className="App">
-     <TopNav/>
+      <Router>
+        <Switch>
+          <Route path="/">
+            <Sidebar />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
