@@ -12,15 +12,18 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import MovieFilterOutlinedIcon from "@material-ui/icons/MovieFilterOutlined";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import LocalMoviesIcon from "@material-ui/icons/LocalMovies";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import MovieIcon from "@material-ui/icons/Movie";
+import Button from "@material-ui/core/Button";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Movies from "./Movies";
+import Finder from "./Finder";
+import ViewDetails from "./ViewDetails";
 
 const drawerWidth = 240;
 
@@ -104,14 +107,15 @@ export default function MiniDrawer() {
     var data = await axios.get(
       `https://api.themoviedb.org/3/genre/movie/list?api_key=fed69657ba4cc6e1078d2a6a95f51c8c`
     );
-
-    console.log("data", data.data.genres);
     setGenres(data.data.genres);
   }, []);
 
   const handleClick = (genre) => {
-    console.log("avto", genre.id);
     history.push(`/genre/${genre.id}/${genre.name}`);
+  };
+  const handleOnClick = () => {
+    console.log("MovieFinder");
+    history.push(`/Finder`);
   };
 
   return (
@@ -133,11 +137,15 @@ export default function MiniDrawer() {
               [classes.hide]: open,
             })}
           >
-            <MenuIcon />
+            <MovieFilterOutlinedIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Mini variant drawer
-          </Typography>
+
+          <Button color="inherit" onClick={() => handleOnClick()}>
+            Movie Finder
+          </Button>
+
+          <Button color="inherit">Upcoming Movies</Button>
+          <Button color="inherit">Popular Series</Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -164,10 +172,10 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          {genres.map((genre, index) => (
+          {genres.map((genre) => (
             <ListItem button key={genre.id} onClick={() => handleClick(genre)}>
               <ListItemIcon>
-                <LocalMoviesIcon />
+                <MovieFilterOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary={genre.name} />
             </ListItem>
@@ -180,6 +188,12 @@ export default function MiniDrawer() {
           <Switch>
             <Route path="/genre/:id/:name">
               <Movies />
+            </Route>
+            <Route path="/Finder">
+              <Finder />
+            </Route>
+            <Route path="/ViewDetails">
+              <ViewDetails />
             </Route>
           </Switch>
         </Typography>
